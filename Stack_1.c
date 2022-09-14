@@ -12,7 +12,6 @@ void push(int x){
         printf("Stack is Overflow\n");
     }
 }
-
 int pop(){
     if(top >= 0){
         int val = stack[top];
@@ -22,7 +21,6 @@ int pop(){
     printf("Stack Is Empty\n");
     return -1;
 }
-
 int peek(){
     if(top >= 0){
         return stack[top];
@@ -30,6 +28,7 @@ int peek(){
     printf("Stack Is Empty\n");
     return -1;
 }
+//Main function
 int main(){
     printf("Start From here.\n\n");
     peek();
