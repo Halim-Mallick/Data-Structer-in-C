@@ -1,5 +1,6 @@
 #include <iostream>
-#include <iomanip> // For formatting output
+#include <cmath>
+
 using namespace std;
 
 double func(double x) {
@@ -10,44 +11,37 @@ double derivative(double x) {
     return 3 * x * x - 1;
 }
 
-double e = 0.001;
-double c;
+double accuracy = 0.00001;
 
-void newtonRaphson(double x0) {
-    int i = 1;
+double newtonRaphson(double a, double b) {
+    double x0 = (a + b) / 2;
 
     while (true) {
-        cout << "Iteration " << i << ":" << endl;
-        cout << "x = " << x0 << endl;
+        double f_x0 = func(x0);
+        double f_prime_x0 = derivative(x0);
 
-        // Set the precision for f(x) and f'(x)
-        cout.precision(5);
-        cout << "f(x) = " << func(x0) << endl;
-        cout << "f'(x) = " << derivative(x0) << endl;
+        double x1 = x0 - f_x0 / f_prime_x0;
 
-        c = x0 - func(x0) / derivative(x0);
+        if (fabs(func(x1)) <= accuracy) {
+            return x1; // Found root within desired accuracy
+        }
 
-        cout << "x = " << c << endl;
-        cout << "f(x) = " << func(c) << endl;
-        cout << endl;
-
-        if (abs(func(c)) < e)
-            break;
-
-        x0 = c;
-        i++;
+        x0 = x1;
     }
-
-    cout << "Accurate Root calculated is " << c << endl;
 }
 
 int main() {
-    double x0 = 2; // Initial guess
+    double a, b;
 
-    cout << "The function used is f(x) = x^3 - x - 1" << endl;
-    cout << "Initial guess x0 = " << x0 << endl << endl;
+    cout << "Enter interval [a, b] such that f(a) * f(b) < 0: ";
+    cin >> a >> b;
 
-    newtonRaphson(x0);
+    if (func(a) * func(b) >= 0) {
+        cout << "Invalid interval. Please choose a different interval." << endl;
+    } else {
+        double root = newtonRaphson(a, b);
+        cout << "Approximate root: " << root << endl;
+    }
 
     return 0;
 }
